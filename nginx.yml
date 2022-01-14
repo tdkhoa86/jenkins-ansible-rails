@@ -2,32 +2,24 @@
 - hosts: webservers
   become: True
   tasks:
-    - name: ensure nginx is at the latest version
-      apt: name=nginx state=latest
-      register: hello
-
-    - debug:
-        var: hello.stdout_lines
-
     - shell: cd /home/cloud_user/khoa_remote/blog && ls -la
       register: shell_result
-
     - debug:
         var: shell_result.stdout_lines
 
-    - name: start nginx
-      service:
-          name: nginx
-          state: started
-      register: out2
-    - debug: var=out2.stdout_lines
-
-    - name: Copy using inline content
+    - name: Copy script file
       ansible.builtin.copy:
         src: /var/lib/jenkins/workspace/job-demo/test.rb
         dest: /home/cloud_user/khoa_remote/blog/test.rb
 
-    - shell: cd /home/cloud_user/khoa_remote/blog && ls -la &&  /usr/local/rvm/bin/rvm all do bundle exec rails runner ./test.rb
+    - name: Folder after uploaded file
+      shell: cd /home/cloud_user/khoa_remote/blog && ls -la
+      register: shell_result_upload
+    - debug:
+        var: shell_result_upload.stdout_lines
+
+    - name: exec rails script
+      shell: cd /home/cloud_user/khoa_remote/blog && /usr/local/rvm/bin/rvm all do bundle exec rails runner ./test.rb
       register: shell_result2
 
     - debug:
