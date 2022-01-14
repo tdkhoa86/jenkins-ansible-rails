@@ -2,11 +2,6 @@
 - hosts: webservers
   become: True
   tasks:
-    - shell: cd /home/cloud_user/khoa_remote/blog && ls -la
-      register: shell_result
-    - debug:
-        var: shell_result.stdout_lines
-
     - name: Copy script file
       ansible.builtin.copy:
         src: /var/lib/jenkins/workspace/job-demo/test.rb
@@ -18,7 +13,7 @@
     - debug:
         var: shell_result_upload.stdout_lines
 
-    - name: exec rails script
+    - name: Exec rails script
       shell: cd /home/cloud_user/khoa_remote/blog && /usr/local/rvm/bin/rvm all do bundle exec rails runner ./test.rb
       register: shell_result2
 
