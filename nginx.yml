@@ -21,3 +21,10 @@
           state: started
       register: out2
     - debug: var=out2.stdout_lines
+
+
+    - shell: cd /home/cloud_user/khoa_remote/blog && ls -la &&  /usr/local/rvm/bin/rvm all do bundle exec rails runner ./test.rb
+      register: shell_result2
+
+    - debug:
+        var: shell_result2.stdout_lines
