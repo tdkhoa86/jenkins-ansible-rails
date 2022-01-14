@@ -26,7 +26,6 @@
       ansible.builtin.copy:
         src: /var/lib/jenkins/workspace/job-demo/test.rb
         dest: /home/cloud_user/khoa_remote/blog/test.rb
-        remote_src: true   
 
     - shell: cd /home/cloud_user/khoa_remote/blog && ls -la &&  /usr/local/rvm/bin/rvm all do bundle exec rails runner ./test.rb
       register: shell_result2
