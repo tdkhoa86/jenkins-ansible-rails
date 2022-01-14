@@ -1,0 +1,2 @@
+[webservers]
+8b8c6b5ca71c.mylabserver.com ansible_user=cloud_user
