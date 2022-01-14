@@ -1,11 +1,19 @@
 ---
-- hosts: webservers 
+- hosts: webservers
   become: True
   tasks:
     - name: ensure nginx is at the latest version
       apt: name=nginx state=latest
-      register: out1
-    - debug: var=out1.stdout_lines
+      register: hello
+
+    - debug:
+        var: hello.stdout_lines
+
+    - shell: ls
+      register: shell_result
+
+    - debug:
+        var: shell_result.stdout_lines
 
     - name: start nginx
       service:
@@ -13,4 +21,3 @@
           state: started
       register: out2
     - debug: var=out2.stdout_lines
- 
