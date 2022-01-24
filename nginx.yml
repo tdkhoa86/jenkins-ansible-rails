@@ -1,24 +1,24 @@
 ---
-- hosts: webservers
+- hosts: "{{ target_host }}"
   become: True
+  gather_facts: no
+  vars: 
+    - input_file_name:    "{{ input_file_name }}"
+    - input_script_name:  "{{ input_script_name}}" 
+    - service_name:       "{{ service_name}}"
   tasks:
     - name: Copy script file
       ansible.builtin.copy:
-        src: /var/lib/jenkins/workspace/job-demo/test.rb
-        dest: /home/cloud_user/khoa_remote/blog/test.rb
-
-    - name: Folder after uploaded file
-      shell: cd /home/cloud_user/khoa_remote/blog && ls -la
-      register: shell_result_upload
-    - debug:
-        var: shell_result_upload.stdout_lines
+        src: "{{ source_file }}"            # /var/lib/jenkins/workspace/job-demo/test.rb
+        dest: "{{ dest_file}}"              #/home/cloud_user/khoa_remote/blog/test.rb
+        force: yes
 
     - name: Exec rails script
-      shell: cd /home/cloud_user/khoa_remote/blog && /usr/local/rvm/bin/rvm all do bundle exec rails runner ./test.rb
-      register: shell_result2
+      shell: "cd /home/cloud_user/khoa_remote/blog && /usr/local/rvm/bin/rvm all do bundle exec rails runner ./{{ input_script_name }}"
+      register: script_output
 
     - debug:
-        var: shell_result2.stdout_lines
+        var: script_output.stdout_lines
 
 
     
