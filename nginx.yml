@@ -10,13 +10,13 @@
   tasks:
     - name: Copy script file
       ansible.builtin.copy:
-        src: /var/lib/jenkins/workspace/job-demo/test.rb  #"{{ source_file }}"                    # 
+        src: /var/lib/jenkins/workspace/job-demo/test.rb           #"{{ source_file }}"                    # 
         dest: "{{ input_path}}/{{input_script_name}}"              #/home/cloud_user/khoa_remote/blog/test.rb
         force: yes
 
     - name: Copy input file (.csv)
       ansible.builtin.copy:
-        src: /var/lib/jenkins/workspace/job-demo/test.rb  #"{{ source_file }}"                    # 
+        src: /var/lib/jenkins/workspace/job-demo/test.rb         #"{{ source_file }}"                    # 
         dest: "{{ input_path}}/{{input_file_name}}"              #/home/cloud_user/khoa_remote/blog/test.rb
         force: yes
 
