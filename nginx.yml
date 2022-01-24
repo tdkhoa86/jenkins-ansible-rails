@@ -2,11 +2,6 @@
 - hosts: "{{ target_host }}"
   become: True
   gather_facts: no
-  vars: 
-    - input_path:         "{{ input_path}} "
-    - input_file_name:    "{{ input_file_name }}"
-    - input_script_name:  "{{ input_script_name}}" 
-    - 
   tasks:
     - name: Copy script file
       ansible.builtin.copy:
