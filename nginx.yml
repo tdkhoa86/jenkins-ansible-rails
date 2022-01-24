@@ -3,18 +3,25 @@
   become: True
   gather_facts: no
   vars: 
+    - input_path:         "{{ input_path}} "
     - input_file_name:    "{{ input_file_name }}"
     - input_script_name:  "{{ input_script_name}}" 
-    - service_name:       "{{ service_name}}"
+    - 
   tasks:
     - name: Copy script file
       ansible.builtin.copy:
-        src: "{{ source_file }}"            # /var/lib/jenkins/workspace/job-demo/test.rb
-        dest: "{{ dest_file}}"              #/home/cloud_user/khoa_remote/blog/test.rb
+        src: /var/lib/jenkins/workspace/job-demo/test.rb  #"{{ source_file }}"                    # 
+        dest: "{{ input_path}}/{{input_script_name}}"              #/home/cloud_user/khoa_remote/blog/test.rb
         force: yes
 
-    - name: Exec rails script
-      shell: "cd /home/cloud_user/khoa_remote/blog && /usr/local/rvm/bin/rvm all do bundle exec rails runner ./{{ input_script_name }}"
+    - name: Copy input file (.csv)
+      ansible.builtin.copy:
+        src: /var/lib/jenkins/workspace/job-demo/test.rb  #"{{ source_file }}"                    # 
+        dest: "{{ input_path}}/{{input_file_name}}"              #/home/cloud_user/khoa_remote/blog/test.rb
+        force: yes
+
+    - name: Exec rails runner {{ input_script_name}}
+      shell: "cd {{ input_path}} && /usr/local/rvm/bin/rvm all do bundle exec rails runner ./{{ input_script_name }}"
       register: script_output
 
     - debug:
